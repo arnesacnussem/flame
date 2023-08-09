@@ -52,6 +52,7 @@ import {
 } from './bookmark';
 
 import {
+  AuthByHeader,
   AuthErrorAction,
   AutoLoginAction,
   LoginAction,
@@ -105,4 +106,5 @@ export type Action =
   | LoginAction
   | LogoutAction
   | AutoLoginAction
-  | AuthErrorAction;
+  | AuthErrorAction
+  | AuthByHeader;

@@ -12,7 +12,9 @@ import { InputGroup, Button } from '../../../UI';
 import classes from '../AppDetails.module.css';
 
 export const AuthForm = (): JSX.Element => {
-  const { isAuthenticated, token } = useSelector((state: State) => state.auth);
+  const { isAuthenticated, token, authByHeader } = useSelector(
+    (state: State) => state.auth
+  );
 
   const dispatch = useDispatch();
   const { login, logout } = bindActionCreators(actionCreators, dispatch);
@@ -96,13 +98,22 @@ export const AuthForm = (): JSX.Element => {
 
           <Button>Login</Button>
         </form>
-      ) : (
+      ) : !authByHeader ? (
         <div>
           <p className={classes.text}>
             You are logged in. Your session will expire{' '}
             <span>{tokenExpires}</span>
           </p>
           <Button click={logout}>Logout</Button>
+        </div>
+      ) : (
+        <div>
+          <p className={classes.text}>
+            You are logged in by request header. Your session will not expire.
+          </p>
+          <p className={classes.text}>
+            Please make sure your reverse proxy is properly configured!
+          </p>
         </div>
       )}
     </Fragment>

@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 import { ApiResponse } from '../../interfaces';
 import { ActionType } from '../action-types';
 import {
+  AuthByHeader,
   AuthErrorAction,
   AutoLoginAction,
   LoginAction,
@@ -83,3 +84,24 @@ export const authError =
     dispatch<any>(getApps());
     dispatch<any>(getCategories());
   };
+
+export const authByHeader = () => async (dispatch: Dispatch<AuthByHeader>) => {
+  try {
+    const resp = await axios.post<
+      ApiResponse<{ token: { isValid: boolean; byHeader: boolean } }>
+    >('/api/auth/validate', { token: null });
+
+    if (resp.data.success) {
+      dispatch({
+        type: ActionType.authByHeader,
+      });
+
+      dispatch<any>(getApps());
+      dispatch<any>(getCategories());
+    } else {
+      dispatch<any>(authError('Login failed.', false));
+    }
+  } catch (err) {
+    dispatch<any>(authError(err, false));
+  }
+};

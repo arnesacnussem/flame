@@ -12,6 +12,10 @@ const loadConfig = async () => {
   const config = await readFile('data/config.json', 'utf-8');
   const parsedConfig = JSON.parse(config);
 
+  if (process.env.REVERSE_PROXY_AUTH_HEADER) {
+    parsedConfig.authByHeader = true;
+  }
+
   return parsedConfig;
 };
 

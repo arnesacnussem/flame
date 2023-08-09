@@ -3,11 +3,13 @@ import { ActionType } from '../action-types';
 
 interface AuthState {
   isAuthenticated: boolean;
+  authByHeader: boolean;
   token: string | null;
 }
 
 const initialState: AuthState = {
   isAuthenticated: false,
+  authByHeader: false,
   token: null,
 };
 
@@ -42,6 +44,13 @@ export const authReducer = (
         ...state,
         token: null,
         isAuthenticated: false,
+      };
+
+    case ActionType.authByHeader:
+      return {
+        ...state,
+        isAuthenticated: true,
+        authByHeader: true,
       };
 
     default:

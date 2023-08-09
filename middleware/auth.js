@@ -1,9 +1,15 @@
+const validateByHeader = require('../utils/validateByHeader');
 const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
+  let tokenIsValid = false;
+
+  if (process.env.REVERSE_PROXY_AUTH_HEADER) {
+    tokenIsValid = validateByHeader(req);
+  }
+
   const authHeader = req.header('Authorization-Flame');
   let token;
-  let tokenIsValid = false;
 
   if (authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];

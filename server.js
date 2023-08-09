@@ -16,6 +16,13 @@ const initApp = require('./utils/init');
 const Logger = require('./utils/Logger');
 const logger = new Logger();
 
+if (process.env.REVERSE_PROXY_AUTH_HEADER?.trim() === '') {
+  logger.log('Environment variable REVERSE_PROXY_AUTH_HEADER should not be blank string, which will cause this app malfunction.',"ERROR");
+  return;
+}else{
+  logger.log('You have enabled authenticate by header, please make sure you have set up the reverse proxy properly!','WARN')
+}
+
 (async () => {
   const PORT = process.env.PORT || 5005;
 

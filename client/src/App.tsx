@@ -5,7 +5,7 @@ import 'external-svg-loader';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { autoLogin, getConfig } from './store/action-creators';
+import { authByHeader, autoLogin, getConfig } from './store/action-creators';
 import { actionCreators, store } from './store';
 import { State } from './store/reducers';
 
@@ -25,6 +25,10 @@ store.dispatch<any>(getConfig());
 // Validate token
 if (localStorage.token) {
   store.dispatch<any>(autoLogin());
+}
+
+if (localStorage.authByHeader) {
+  store.dispatch<any>(authByHeader());
 }
 
 export const App = (): JSX.Element => {
